@@ -23,13 +23,10 @@ this is the first time I've tried to build an API using data from a second
 API, but it /is/ working, so I'll call that one a win.
 '''
 import requests
+from flask import Flask
 
 
-#from flask import Flask
-#from flask_restful import Resource, Api
-
-#app = Flask(__name__)
-#api = Api(app)
+APP = Flask(__name__)
 
 
 def lang_get(region):
@@ -56,3 +53,21 @@ def lang_get(region):
         return None
     except KeyError:
         return 'Invalid Key'
+
+
+@APP.route('/lang_get/api/<string:region>', methods=['GET'])
+def lang_api(region):
+    '''
+    This is the main API call.
+    '''
+    region_list = ['africa', 'americas', 'asia', 'europe', 'oceania']
+
+    if region not in region_list:
+        error = {'Invalid input: valid domains are': region_list}
+        return error
+    final_list = {region: lang_get(region)}
+    return final_list
+
+
+if __name__ == '__main__':
+    APP.run(debug=True)
