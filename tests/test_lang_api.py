@@ -41,3 +41,13 @@ def test_index_page_invalid():
     url = 'http://127.0.0.1:5000/lang_get/api/none'
     r = requests.get(url)
     assert r.status_code == 200
+
+
+def test_404_page():
+    '''
+    json 404
+    '''
+    url = 'http://127.0.0.1:5000/lang_get/api/'
+    r = requests.get(url)
+    assert r.status_code == 404
+    assert '{"error":404,"text":"404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again."}' 

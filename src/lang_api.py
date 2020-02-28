@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#pylint: disable = C0200
+#pylint: disable = C0200, C0103
 '''
 This is a valid language list per region API.  The goal is to implement an
 API that consumes a region from a specific list, and return a list of valid
@@ -23,7 +23,7 @@ this is the first time I've tried to build an API using data from a second
 API, but it /is/ working, so I'll call that one a win.
 '''
 import requests
-from flask import Flask
+from flask import Flask, jsonify
 
 
 APP = Flask(__name__)
@@ -55,6 +55,14 @@ def lang_get(region):
         return 'Invalid Key'
 
 
+@APP.errorhandler(404)
+def page_not_found(e):
+    '''
+    Giving my 404 some json love.
+    '''
+    return jsonify(error=404, text=str(e)), 404
+
+
 @APP.route('/lang_get/api/<string:region>', methods=['GET'])
 def lang_api(region):
     '''
@@ -70,4 +78,4 @@ def lang_api(region):
 
 
 if __name__ == '__main__':
-    APP.run(debug=True)
+    APP.run(debug=False, host='0.0.0.0')
