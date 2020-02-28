@@ -35,8 +35,9 @@ def lang_get(region):
                    'Americas',
                    'Asia',
                    'Europe',
-                   'Oceania']
+                   'Oceania',]
 
+    lang_final = []
 
     if region in region_list:
         url = base_url + region
@@ -44,8 +45,26 @@ def lang_get(region):
         try:
             if response.status_code == 200:
                 json = response.json()
-                for data in json['language']:
-                    print()
+                for i in range(0, len(json)):
+                    lang_get = json[i]['languages']
+                    lang_work = lang_get[0]['name']
+                    if lang_work not in lang_final:
+                        lang_final.append(lang_work)
 
         except KeyError:
             pass
+
+'''
+This works:
+In [35]: print(lang_final)
+['French', 'English', 'Samoan', 'Bislama']
+
+In [36]: lang_work = []
+    ...: for i in range(0, len(json)):
+    ...:     lang_get = json[i]['languages']
+    ...:     lang_work = lang_get[0]['name']
+    ...:     if lang_work not in lang_final:
+    ...:         lang_final.append(lang_work)
+
+Need to put into a list and keep dupes from poplating.  But that works!ß
+'''
