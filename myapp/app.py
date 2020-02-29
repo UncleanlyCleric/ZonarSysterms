@@ -32,7 +32,6 @@ APP = Flask(__name__)
 def lang_get(region):
     '''
     This function queries restfulcounties to grab all countries available.
-    Languages will be parsed out in another function.
 
     PARAM = region
     '''
